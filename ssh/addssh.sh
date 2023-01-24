@@ -1,56 +1,71 @@
 #!/bin/bash
-# ==========================================
-# Getting
-MYIP=$(wget -qO- ipinfo.io/ip);
+red='\e[1;31m'
+green='\e[0;32m'
+NC='\e[0m'
+MYIP=$(wget -qO- icanhazip.com);
+echo "Script By Mardhex"
+clear
+if [[ "$IP2" = "" ]]; then
 domain=$(cat /root/scdomain)
-clear
+else
+domain=$IP2
+fi
 read -p "Username : " Login
-read -p "Expired (Days): " masaaktif
+read -p "Password : " Pass
+read -p "Expired (hari): " masaaktif
+ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
 
-IP=$(wget -qO- ipinfo.io/ip);
-ws="$(cat ~/log-install.txt | grep -w "Websocket TLS" | cut -d: -f2|sed 's/ //g')"
-ws2="$(cat ~/log-install.txt | grep -w "Websocket None TLS" | cut -d: -f2|sed 's/ //g')"
-ssl="$(cat ~/log-install.txt | grep -w "Stunnel5" | cut -d: -f2)"
+IP=$(wget -qO- icanhazip.com);
+ssl="$(cat ~/log-install.txt | grep -w "Stunnel4" | cut -d: -f2)"
+sqd="$(cat ~/log-install.txt | grep -w "Squid" | cut -d: -f2)"
+ovpn="$(netstat -nlpt | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
+ovpn2="$(netstat -nlpu | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
+sleep 1
+echo Ping Host
+echo Cek Hak Akses...
+sleep 0.5
+echo Permission Accepted
 clear
-random=`</dev/urandom tr -dc X-Z0-9 | head -c4`
-Pass=$Login$random
+sleep 0.5
+echo Membuat Akun: $Login
+sleep 0.5
+echo Setting Password: $Pass
+sleep 0.5
+clear
 useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
-expi="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
+exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
+created=`date -d "0 days" +"%d-%m-%Y"`
 echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
-hariini=`date -d "0 days" +"%Y-%m-%d"`
-expi=`date -d "$masaaktif days" +"%Y-%m-%d"`
-clear
 echo -e ""
-echo -e "═══════════════════════"
-echo -e "Informasi SSH Premium"
-echo -e "═══════════════════════"
-echo -e "Hostname    : $domain"
-echo -e "Username    : $Login"
+echo -e "======================================="
+echo -e "SSH & OpenVPN Account Info"
+echo -e "======================================="
+echo -e "Username    : $Login "
 echo -e "Password    : $Pass"
-echo -e "═══════════════════════"
+echo -e "Kadaluarsa  : $exp"
+echo -e "======================================="
+echo -e "ISP         : $ISP"
+echo -e "Host        : $IP"
+echo -e "Domain      : ${domain}"
 echo -e "OpenSSH     : 22"
-echo -e "Dropbear    : 443, 109, 143"
-echo -e "SSL/TLS     :$ssl"
-echo -e "═══════════════════════"
-echo -e "OHP SSH     : 8181"
-echo -e "OHP Dropbear: 8282"
-echo -e "═══════════════════════"
-echo -e "SSH Ws SSL  : 443"
-echo -e "SSH Ws HTTP : 80, 8080"
-echo -e "═══════════════════════"
-echo -e "BadVPN      : 7100,7200,7300"
-echo -e "═══════════════════════"
-echo -e "PAYLOAD WS HTTP"
-echo -e "═══════════════════════"
+echo -e "Dropbear    : 109, 143"
+echo -e "WS None TLS : 80"
+echo -e "WS TLS      : 443"
+echo -e "SSL/TLS     : 443"
+echo -e "OpenVPN WS  : 8080"
+echo -e "Port Squid  : 3128, 8000"
+echo -e "=======Payload Websocket HTTP============"
 echo -e "GET / HTTP/1.1[crlf]Host: ${domain}[crlf]Connection: Keep-Alive[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]"
-echo -e "═══════════════════════"
-echo -e "PAYLOAD WS SSL"
-echo -e "═══════════════════════"
-echo -e "GET wss://bug.com/ HTTP/1.1[crlf]Host: ${domain}[crlf]Connection: Keep-Alive[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]"
-echo -e "═══════════════════════"
-echo -e "Created     : $hariini"
-echo -e "Expired     : $expi"
-echo -e "═══════════════════════"
-sleep 2
-systemctl restart ssh-ohp
-systemctl restart dropbear-ohp
+echo -e "==============================="
+echo -e "Link Download Ovpn"
+echo -e "======================================="
+echo -e "OpenVPN       : TCP 1194"
+echo -e "http://$IP:81/tcp.ovpn"
+echo -e "OpenVPN       : UDP 2200"
+echo -e "http://$IP:81/udp.ovpn"
+echo -e "OpenVPN       : SSL 442"
+echo -e "http://$IP:81/ssl.ovpn"
+echo -e "======================================="
+echo -e ""
+echo -e "Script By Kenn XV"
+echo -e ""
