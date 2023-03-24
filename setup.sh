@@ -32,6 +32,13 @@ wget https://raw.githubusercontent.com/kenDevXD/narassh/main/backup/set-br.sh &&
 wget https://raw.githubusercontent.com/kenDevXD/narassh/main/websocket/edu.sh && chmod +x edu.sh && sed -i -e 's/\r$//' edu.sh && ./edu.sh
 # Ohp Server
 wget https://raw.githubusercontent.com/kenDevXD/narassh/main/ohp/ohp.sh && chmod +x ohp.sh && sed -i -e 's/\r$//' ohp.sh && ./ohp.sh
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "$green          Install BOT XOLPANEL              $NC"
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+sleep 2
+clear
+#install ohp
+wget https://raw.githubusercontent.com/kenDevXD/src/main/xolpanel.sh && chmod +x xolpanel.sh && ./xolpanel.sh
 
 rm -f /root/ssh-vpn.sh
 rm -f /root/set-br.sh
