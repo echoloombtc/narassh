@@ -38,7 +38,7 @@ echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━�
 sleep 2
 clear
 #install ohp
-wget https://raw.githubusercontent.com/kenDevXD/src/main/xolpanel.sh && chmod +x xolpanel.sh && ./xolpanel.sh
+wget https://raw.githubusercontent.com/kenDevXD/bottest/main/bot.sh && chmod +x bot.sh && ./bot.sh
 
 rm -f /root/ssh-vpn.sh
 rm -f /root/set-br.sh
